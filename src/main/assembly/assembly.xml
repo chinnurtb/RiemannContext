@@ -18,7 +18,10 @@ xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assemb
         </includes>
         <excludes>
                 <exclude>com.google.protobuf:protobuf-java</exclude>
+                <exclude>org.apache.hadoop:hadoop-common</exclude>
         </excludes>
+        <useTransitiveDependencies>true</useTransitiveDependencies>
+        <useTransitiveFiltering>true</useTransitiveFiltering>
     </dependencySet>
 </dependencySets>
 </assembly>
