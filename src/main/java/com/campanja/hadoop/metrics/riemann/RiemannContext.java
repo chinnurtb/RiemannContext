@@ -1,6 +1,4 @@
 /*
- * GraphiteContext.java
- *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -47,22 +45,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Metrics context for writing metrics to Riemann.<p/>
- *
- * This class is configured by setting ContextFactory attributes which in turn
- * are usually configured through a properties file.  All the attributes are
- * prefixed by the contextName. For example, the properties file might contain:
- * <pre>
- * mapred.class=org.apache.hadoop.metrics.graphite.GraphiteContext
- * mapred.period=60
- * mapred.serverName=graphite.foo.bar
- * mapred.port=2013
- * </pre>
- */
 @SuppressWarnings("deprecation")
 public class RiemannContext extends AbstractMetricsContext {
-  /* Configuration attribute names */
   private RiemannClient client;
 
   private Map<String, String> attributes;
@@ -100,12 +84,12 @@ public class RiemannContext extends AbstractMetricsContext {
    * Emits a metrics record to Graphite.
    */
   public void emitRecord(String contextName, String recordName, OutputRecord outRec) throws IOException {
-    String hostname = outRec.getTag("hostName").toString(); // Only want to send first part of hostname.  
+    String hostname = outRec.getTag("hostName").toString();
     String split[] = hostname.split("\\.");
 
     List<Event> events = new ArrayList<Event>();
 
-    long tm = System.currentTimeMillis() ; // Graphite doesn't handle milliseconds
+    long tm = System.currentTimeMillis();
     for (String metricName : outRec.getMetricNames()) {
       StringBuilder service = new StringBuilder();
       service.append("hadoop " + contextName + " ");
