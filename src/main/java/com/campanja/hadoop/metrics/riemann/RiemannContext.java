@@ -54,7 +54,6 @@ public class RiemannContext extends AbstractMetricsContext {
 
   private final Log LOG = LogFactory.getLog(this.getClass());
 
-  /** Creates a new instance of GraphiteContext */
   public RiemannContext() {}
 
   public void init(String contextName, ContextFactory factory) {
@@ -75,14 +74,11 @@ public class RiemannContext extends AbstractMetricsContext {
       tt.cacheDns.set(false);
       client.connect();
     } catch (Exception e) {
-      LOG.error(e);
+      LOG.error("Failed to create Riemann client: " + e);
     }
     parseAndSetPeriod("period");
   }
 
-  /**
-   * Emits a metrics record to Graphite.
-   */
   public void emitRecord(String contextName, String recordName, OutputRecord outRec) throws IOException {
     String hostname = outRec.getTag("hostName").toString();
     String split[] = hostname.split("\\.");
@@ -121,8 +117,7 @@ public class RiemannContext extends AbstractMetricsContext {
     try {
       client.sendRecvMessage(msg);
     } catch (Exception e) {
-      LOG.info("Exception: " + e);
+      LOG.info("Failed to send events to remote server: " + e);
     }
-    LOG.info("emitted metrics in " + Long.toString(System.currentTimeMillis()-tm));
   }
 }
